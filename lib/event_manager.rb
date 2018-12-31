@@ -15,8 +15,8 @@ def clean_phone_numbers(phone)
   phone.slice!(0) if phone[0] == "1"
 end
 
-def calculate_best_ad_time(file_small)
-  hash = find_best_date_and_time(file_small)
+def calculate_best_ad_time(file_full)
+  hash = find_best_date_and_time(file_full)
   best_time, best_day = ""
   day_count = 0
   time_count = 0
@@ -43,8 +43,8 @@ def print_best_ad_times(best_time, best_day)
   end
 end
 
-def find_best_date_and_time(file_small)
-  contents = CSV.open(file_small, headers: true, header_converters: :symbol)
+def find_best_date_and_time(file_full)
+  contents = CSV.open(file_full, headers: true, header_converters: :symbol)
   hsh = {}
   contents.each do |row|
     date_and_time = row[:regdate]
@@ -97,11 +97,10 @@ end
 
 puts "EventManager Initialized"
 
-contents = CSV.open(file_small, headers: true, header_converters: :symbol)
+contents = CSV.open(file_full, headers: true, header_converters: :symbol)
 
 template_letter = File.read("form_letter.erb")
 erb_template = ERB.new template_letter
-
 
 contents.each do |row|
   id = row[0]
@@ -118,4 +117,4 @@ contents.each do |row|
   save_thank_you_letter(id, form_letter)  
 end
 
-calculate_best_ad_time(file_small)
+calculate_best_ad_time(file_full)
